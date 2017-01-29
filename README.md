@@ -15,7 +15,7 @@ C++ library for sending Graylog Extended Log Format (GELF) messages using UDP pr
     gelf::configure( "127.0.0.1", 5000 );
 
     ...
-    
+
     // Destroy gelf library
     gelf::destroy();
 ```

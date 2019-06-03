@@ -90,28 +90,16 @@ if(NOT WIN32 OR MINGW)
     target_link_libraries(${PROJECT_TEST_NAME} ${CMAKE_THREAD_LIBS_INIT})
 else()
     target_link_libraries(${PROJECT_TEST_NAME}
-        debug ${GTEST_LIBS_DIR}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_FIND_LIBRARY_SUFFIXES}
+        debug ${GTEST_LIBS_DIR}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtestd${CMAKE_FIND_LIBRARY_SUFFIXES}
         optimized ${GTEST_LIBS_DIR}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_FIND_LIBRARY_SUFFIXES}
         )
     target_link_libraries(${PROJECT_TEST_NAME}
-        debug ${GTEST_LIBS_DIR}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES}
+        debug ${GTEST_LIBS_DIR}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_maind${CMAKE_FIND_LIBRARY_SUFFIXES}
         optimized ${GTEST_LIBS_DIR}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES}
         )
 
     target_link_libraries (${PROJECT_TEST_NAME} ws2_32.lib)
     set_target_properties(${PROJECT_TEST_NAME} PROPERTIES COMPILE_FLAGS "/wd4251")
-
-    add_custom_command(
-            TARGET ${PROJECT_TEST_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-                    ${ZLIB_ROOT}/bin/zlibd.dll
-                  ${CMAKE_CURRENT_BINARY_DIR}/zlibd.dll)
-
-    add_custom_command(
-            TARGET ${PROJECT_TEST_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-                    ${ZLIB_ROOT}/bin/zlib.dll
-                  ${CMAKE_CURRENT_BINARY_DIR}/zlib.dll)
 endif()
 
 target_link_libraries (${PROJECT_TEST_NAME} ${ZLIB_LIBRARY})

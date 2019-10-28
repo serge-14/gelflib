@@ -42,8 +42,9 @@ namespace gelf
      * Configures default server
      * @param strHost Host IP address
      * @param uPort A port
+     * @return Returns true if message were sent successfully, otherwise false.
      */
-    GELFLIB_EXPORT void configure( const std::string& strHost, uint16_t uPort );
+    GELFLIB_EXPORT bool configure( const std::string& strHost, uint16_t uPort );
 
     /**
      * Gets configured host IP address

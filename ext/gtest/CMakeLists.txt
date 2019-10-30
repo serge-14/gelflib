@@ -29,9 +29,5 @@ set(GTEST_INCLUDE_DIRS ${source_dir}/googletest/include PARENT_SCOPE)
 # Specify MainTest's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
 
-if(APPLE)
-    set(GTEST_LIBS_DIR ${binary_dir}/lib PARENT_SCOPE)
-else()
-    set(GTEST_LIBS_DIR ${binary_dir}/googlemock/gtest PARENT_SCOPE)
-endif()
+set(GTEST_LIBS_DIR ${binary_dir}/lib PARENT_SCOPE)
 

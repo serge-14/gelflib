@@ -11,6 +11,7 @@ endif()
 
 ExternalProject_Add(googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG 703bd9caab50b139428cea1aaff9974ebee5742e
     CMAKE_ARGS -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=DebugLibs
     -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE:PATH=ReleaseLibs
     -DCMAKE_CXX_FLAGS=${MSVC_COMPILER_DEFS}

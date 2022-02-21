@@ -4,7 +4,7 @@ project(${PROJECT_NAME_STR} CXX)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     find_package(Threads REQUIRED)
-    add_definitions(-Wall -fvisibility=default -ansi -Wno-deprecated -pthread)
+    add_definitions(-Wall -fvisibility=default -ansi -Wno-deprecated -pthread -std=c++11 -Wno-sign-compare)
 endif()
 
 if(MSVC)

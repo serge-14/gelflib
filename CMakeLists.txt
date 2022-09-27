@@ -100,18 +100,6 @@ else()
 
     target_link_libraries (${PROJECT_TEST_NAME} ws2_32.lib)
     set_target_properties(${PROJECT_TEST_NAME} PROPERTIES COMPILE_FLAGS "/wd4251")
-
-    add_custom_command(
-            TARGET ${PROJECT_TEST_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-                    ${ZLIB_ROOT}/bin/zlibd.dll
-                  ${CMAKE_CURRENT_BINARY_DIR}/zlibd.dll)
-
-    add_custom_command(
-            TARGET ${PROJECT_TEST_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-                    ${ZLIB_ROOT}/bin/zlib.dll
-                  ${CMAKE_CURRENT_BINARY_DIR}/zlib.dll)
 endif()
 
 target_link_libraries (${PROJECT_TEST_NAME} ${ZLIB_LIBRARY})

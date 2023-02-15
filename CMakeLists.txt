@@ -2,9 +2,12 @@ cmake_minimum_required (VERSION 3.5.1)
 set(PROJECT_NAME_STR gelflib)
 project(${PROJECT_NAME_STR} CXX)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     find_package(Threads REQUIRED)
-    add_definitions(-Wall -fvisibility=default -ansi -Wno-deprecated -pthread -std=c++11 -Wno-sign-compare)
+    add_definitions(-Wall -fvisibility=default -ansi -Wno-deprecated -pthread -std=c++14 -Wno-sign-compare)
 endif()
 
 if(MSVC)

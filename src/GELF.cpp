@@ -5,7 +5,7 @@
 #if defined(WIN32)
 #define NOMINMAX
 #include <winsock.h>
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -64,13 +64,20 @@ void gelf::destroy()
 #endif
 }
 
-void gelf::configure( const std::string& strHost, uint16_t uPort )
+bool gelf::configure( const std::string& strHost, uint16_t uPort )
 {
     GELF_ASSERT( g_pConfiguration != nullptr );
 
+    sockaddr_in server_addr;
+
+    if(!getSockAddr( strHost, uPort, &server_addr))
+        return false;
+
     g_pConfiguration->strHost = strHost;
     g_pConfiguration->uPort = uPort;
-    g_pConfiguration->server_addr = getSockAddr( strHost, uPort );
+    g_pConfiguration->server_addr = server_addr;
+
+    return true;
 }
 
 const std::string& gelf::getConfiguredHost()
@@ -91,18 +98,19 @@ struct sockaddr_in& gelf::getConfiguredSockAddr()
     return g_pConfiguration->server_addr;
 }
 
-struct sockaddr_in gelf::getSockAddr( const std::string & strHost, uint16_t uPort )
+bool gelf::getSockAddr( const std::string & strHost, uint16_t uPort, struct sockaddr_in * server_addr )
 {
-    sockaddr_in server_addr;
-
     struct hostent* pHost = ( struct hostent * ) gethostbyname( strHost.c_str() );
 
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons( uPort );
-    server_addr.sin_addr = *( ( struct in_addr * )pHost->h_addr );
-    memset( &( server_addr.sin_zero ), 0, 8 );
+    if(pHost == nullptr)
+        return false;
 
-    return server_addr;
+    server_addr->sin_family = AF_INET;
+    server_addr->sin_port = htons( uPort );
+    server_addr->sin_addr = *( ( struct in_addr * )pHost->h_addr );
+    memset( &( server_addr->sin_zero ), 0, 8 );
+
+    return true;
 }
 
 bool internalPost( const gelf::Message& rMessage, const struct sockaddr_in& pSockAddr )
@@ -126,5 +134,10 @@ bool gelf::post( const gelf::Message& rMessage )
 
 bool gelf::post( const gelf::Message& rMessage, const std::string& strHost, uint16_t uPort )
 {
-    return ::internalPost( rMessage, gelf::getSockAddr( strHost, uPort ) );
+    sockaddr_in server_addr;
+
+    if(!getSockAddr( strHost, uPort, &server_addr))
+        return false;
+
+    return ::internalPost( rMessage, server_addr);
 }

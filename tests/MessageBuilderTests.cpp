@@ -142,15 +142,13 @@ namespace tests
             .build().getMessage();
 
         char buffer[ 256 ];
-        snprintf( buffer, 256, "{\"version\": \"1.1\",\"short_message\": \"DebugLevel\",\"level\": 7,\"timestamp\": %llu,\"host\": \"localhost\"}", result );
+        snprintf( buffer, 256, "{\"version\": \"1.1\",\"short_message\": \"DebugLevel\",\"level\": 7,\"timestamp\": %ld,\"host\": \"localhost\"}", result );
 
         ASSERT_STREQ( strValue.c_str(), buffer );
     }
 
     TEST( MessageBuilderTests, AdditionalField )
     {
-        std::time_t result = std::time( nullptr );
-
         std::string strValue = gelf::MessageBuilder( gelf::Severity::Debug, "DebugLevel" )
             .additionalField( "facility", "application" )
             .additionalField( "number", 255 )

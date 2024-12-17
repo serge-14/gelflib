@@ -149,7 +149,6 @@ namespace tests
         size_t uSize = 32 * 129;
 
         uint64_t uMessageId = 0;
-        uint8_t uTargetChunkCount = 3;
         uint8_t uTargetChunkSize = 32;
 
         gelf::ChunkedData package = gelf::PackageBuilder( reinterpret_cast< const uint8_t* >( pData ), uSize )

@@ -4,7 +4,7 @@
 #if defined(WIN32)
 #define NOMINMAX
 #include <winsock.h>
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
